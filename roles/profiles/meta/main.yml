@@ -1,0 +1,5 @@
+---
+dependencies:
+  - bootstrap
+  - role: kubernetes
+    when: want_kubernetes

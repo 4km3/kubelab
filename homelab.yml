@@ -1,0 +1,6 @@
+---
+- name: Install or update profiles
+  hosts: homelab
+  gather_facts: yes
+  roles:
+    - profiles

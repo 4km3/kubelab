@@ -1,0 +1,11 @@
+---
+- name: Disable swap in host
+  become: yes
+  command: swapoff -a
+
+- name: Disable swap at fstab
+  become: yes
+  lineinfile:
+    path: /etc/fstab
+    state: absent
+    regexp: '^/swapfile'

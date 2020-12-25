@@ -1,0 +1,6 @@
+[homelab]
+target want_feature=[True|False]
+
+[homelab:vars]
+want_feature=[True|False]
+want_kubernetes=False
