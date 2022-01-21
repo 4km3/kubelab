@@ -1,6 +1,7 @@
-[homelab]
-target want_feature=[True|False]
+[kubelab]
+k8s-cp.tld want_kubernetes=True
+k8s-node1.tld want_kubernetes=True
+k8s-node2.tld want_kubernetes=True
 
-[homelab:vars]
-want_feature=[True|False]
+[kubelab:vars]
 want_kubernetes=False

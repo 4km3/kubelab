@@ -1,3 +1,3 @@
-# homelab
+# kubelab
 
-ansible-playbook homelab.yml
+ansible-playbook kubelab.yaml

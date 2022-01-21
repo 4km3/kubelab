@@ -1,6 +1,6 @@
 ---
 - name: Install or update profiles
-  hosts: homelab
+  hosts: kubelab
   gather_facts: yes
   roles:
     - profiles
