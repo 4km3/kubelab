@@ -17,6 +17,13 @@
     content: |
       br_netfilter
 
+- name: Load module br_netfilter
+  become: yes
+  modprobe:
+    name: br_netfilter
+    state: present
+
+
 - name: Modify bridge-nf-call sysctl values
   become: yes
   copy:
@@ -24,6 +31,13 @@
     content: |
       net.bridge.bridge-nf-call-ip6tables = 1
       net.bridge.bridge-nf-call-iptables = 1
+
+- name: Enable sysctl IPv4 Forward
+  become: yes
+  copy:
+    dest: "/etc/sysctl.d/ipv4_forward.conf"
+    content: |
+      net.ipv4.ip_forward=1
 
 - name: Reload sysctl
   become: yes
