@@ -62,8 +62,3 @@
       - kubelet=1.22.6-00
       - kubectl=1.22.6-00
       - kubeadm=1.22.6-00
-
-/etc/apt/preferences.d$ cat kubectl
-Package: kubectl
-Pin: version 1.22.*
-Pin-Priority: 999
