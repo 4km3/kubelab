@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+vmdelete k8s-{cp,node{1,2}}
+
