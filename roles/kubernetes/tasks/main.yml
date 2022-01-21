@@ -67,6 +67,19 @@
     state: present
     filename: kubernetes
 
+- name: Setup pinning for kubesomething commands
+  become: yes
+  template:
+    src: "{{ item }}.j2"
+    dest: /etc/apt/preferences.d/{{ item }}
+    owner: root
+    group: root
+    mode: 0644
+  loop:
+    - kubectl
+    - kubeadm
+    - kubelet
+
 - name: Install kubeadm and friends
   become: yes
   apt:
