@@ -1,7 +1,7 @@
 [kubelab]
-k8s-cp.tld want_kubernetes=True
-k8s-node1.tld want_kubernetes=True
-k8s-node2.tld want_kubernetes=True
+k8s-cp want_kubernetes=True
+k8s-node1 want_kubernetes=True
+k8s-node2 want_kubernetes=True
 
 [kubelab:vars]
 want_kubernetes=False
