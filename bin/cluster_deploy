@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 cluster_cleanup
-for i in k8s-{cp,node{1,2}}
-	do vmclone $i
-	vmstart $i
+for vm in k8s-{cp,n{1,2}}; do
+	vmclone "$vm"
+	vmstart "$vm"
 done
