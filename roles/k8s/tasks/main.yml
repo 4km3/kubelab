@@ -60,12 +60,12 @@
     url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
     dest: /usr/share/keyrings/kubernetes-archive-keyring.gpg
 
-- name: Install Kubernetes APT repo
+- name: Install K8s APT repo
   become: yes
   apt_repository:
     repo: "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main"
     state: present
-    filename: kubernetes
+    filename: k8s
 
 - name: Setup pinning for kubesomething commands
   become: yes

@@ -1,7 +1,7 @@
 [kubelab]
-k8s-cp want_kubernetes=True
-k8s-n1 want_kubernetes=True
-k8s-n2 want_kubernetes=True
+k8s-cp want_k8s=True
+k8s-n1 want_k8s=True
+k8s-n2 want_k8s=True
 
 [kubelab:vars]
-want_kubernetes=False
+want_k8s=False

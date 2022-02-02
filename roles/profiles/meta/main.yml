@@ -1,5 +1,5 @@
 ---
 dependencies:
   - bootstrap
-  - role: kubernetes
-    when: want_kubernetes
+  - role: k8s
+    when: want_k8s
