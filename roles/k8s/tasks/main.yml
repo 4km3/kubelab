@@ -67,19 +67,6 @@
     state: present
     filename: k8s
 
-- name: Setup pinning for kubesomething commands
-  become: yes
-  template:
-    src: "{{ item }}.j2"
-    dest: /etc/apt/preferences.d/{{ item }}
-    owner: root
-    group: root
-    mode: 0644
-  loop:
-    - kubectl
-    - kubeadm
-    - kubelet
-
 - name: Install kubeadm and friends
   become: yes
   apt:
@@ -89,3 +76,13 @@
       - kubelet=1.23.3-00
       - kubectl=1.23.3-00
       - kubeadm=1.23.3-00
+
+- name: Hold kubeadm and friends
+  become: yes
+  dpkg_selections:
+    selection: hold
+    name: "{{ item }}"
+  loop:
+    - kubelet
+    - kubectl
+    - kubeadm
