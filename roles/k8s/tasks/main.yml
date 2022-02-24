@@ -51,7 +51,6 @@
     name:
       - containerd
       - ca-certificates
-      - apt-transport-https
       - curl
 
 - name: Add Google Cloud signing key
