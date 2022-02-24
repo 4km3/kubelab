@@ -86,6 +86,6 @@
     update_cache: yes
     state: present
     name:
-      - kubelet=1.22.6-00
-      - kubectl=1.22.6-00
-      - kubeadm=1.22.6-00
+      - kubelet=1.23.3-00
+      - kubectl=1.23.3-00
+      - kubeadm=1.23.3-00
