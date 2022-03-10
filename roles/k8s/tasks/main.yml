@@ -35,15 +35,52 @@
     - { name: net.bridge.bridge-nf-call-ip6tables, value: 1 }
     - { name: net.bridge.bridge-nf-call-iptables, value: 1 }
 
+- name: Install GnuPG
+  become: yes
+  apt:
+    name: gpg
+
+- name: Install CRI-O APT signing keys
+  become: yes
+  apt_key:
+    url: "{{ item }}"
+    state: present
+  loop:
+    - https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable:cri-o:1.23/xUbuntu_20.04/Release.key
+    - https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_20.04/Release.key
+
+- name: Install CRI-O APT repos
+  become: yes
+  apt_repository:
+    repo: "{{ item.repo }}"
+    filename: "{{ item.filename }}"
+  loop:
+    - {
+        repo: deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_20.04/ /,
+        filename: devel:kubic:libcontainers:stable,
+      }
+    - {
+        repo: deb http://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/1.23/xUbuntu_20.04/ /,
+        filename: devel:kubic:libcontainers:stable:cri-o:1.23,
+      }
+
 - name: Install dependencies
   become: yes
   apt:
     update_cache: yes
     state: present
     name:
-      - containerd
       - ca-certificates
       - curl
+      - cri-o
+      - cri-o-runc
+
+- name: Enable crio service now
+  become: yes
+  systemd:
+    name: crio
+    enabled: yes
+    state: started
 
 - name: Add Google Cloud signing key
   become: yes
