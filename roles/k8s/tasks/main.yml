@@ -46,7 +46,7 @@
     url: "{{ item }}"
     state: present
   loop:
-    - https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable:cri-o:1.24/xUbuntu_20.04/Release.key
+    - https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable:cri-o:1.25/xUbuntu_20.04/Release.key
     - https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_20.04/Release.key
 
 - name: Install CRI-O APT repos
@@ -60,8 +60,8 @@
         filename: devel:kubic:libcontainers:stable,
       }
     - {
-        repo: deb http://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/1.24/xUbuntu_20.04/ /,
-        filename: devel:kubic:libcontainers:stable:cri-o:1.24,
+        repo: deb http://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/1.25/xUbuntu_20.04/ /,
+        filename: devel:kubic:libcontainers:stable:cri-o:1.25,
       }
 
 - name: Install dependencies
@@ -101,9 +101,9 @@
     update_cache: yes
     state: present
     name:
-      - kubelet=1.24.2-00
-      - kubectl=1.24.2-00
-      - kubeadm=1.24.2-00
+      - kubelet=1.25.2-00
+      - kubectl=1.25.2-00
+      - kubeadm=1.25.2-00
 
 - name: Hold kubeadm and friends
   become: yes
