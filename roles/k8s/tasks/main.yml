@@ -122,3 +122,7 @@
     dest: "/etc/profile.d/{{ item }}"
   loop:
     - k8s.sh
+
+- name: Prime docker image cache
+  become: yes
+  command: kubeadm config images pull --kubernetes-version 1.26.0
