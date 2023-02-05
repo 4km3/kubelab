@@ -10,7 +10,7 @@ kubectl apply -f https://github.com/flannel-io/flannel/releases/latest/download/
 ```
 ## Deploy MetalLB
 ```
-kubectl edit configmap -n kube-system kube-proxy
+kubectl get configmap kube-proxy -n kube-system -o yaml | sed -e "s/strictARP: false/strictARP: true/" | kubectl apply -f - -n kube-system
 kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.13.7/config/manifests/metallb-native.yaml
 kubectl apply -f metallb-pool.yaml
 ```
