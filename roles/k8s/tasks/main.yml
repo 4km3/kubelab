@@ -114,3 +114,11 @@
     - kubelet
     - kubectl
     - kubeadm
+
+- name: Enable useful alias and autocompletion
+  become: yes
+  template:
+    src: "{{ item }}.j2"
+    dest: "/etc/profile.d/{{ item }}"
+  loop:
+    - k8s.sh
