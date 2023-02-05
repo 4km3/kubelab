@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
 
 cluster_cleanup
-for vm in k8s-{cp,n{1,2}}; do
-	(vmclone "$vm" k8s-base && vmstart "$vm") &
-done
-wait
+
+vmclone k8s-cp k8s-base de:ad:be:ef:00:01
+vmstart k8s-cp
+vmclone k8s-n1 k8s-base de:ad:be:ef:00:02
+vmstart k8s-n1
+vmclone k8s-n2 k8s-base de:ad:be:ef:00:03
+vmstart k8s-n2
