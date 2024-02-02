@@ -2,7 +2,7 @@
 
 ## Deploy cluster
 ```
-sudo kubeadm init --pod-network-cidr 10.244.0.0/16 --kubernetes-version 1.26.0
+sudo kubeadm init --pod-network-cidr 10.244.0.0/16 --kubernetes-version 1.28.0
 ```
 ## Deploy Flannel
 ```
