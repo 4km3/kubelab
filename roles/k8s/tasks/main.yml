@@ -40,30 +40,6 @@
   apt:
     name: gpg
 
-- name: Install CRI-O APT signing keys
-  become: yes
-  apt_key:
-    url: "{{ item }}"
-    state: present
-  loop:
-    - https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable:cri-o:1.28/xUbuntu_20.04/Release.key
-    - https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_20.04/Release.key
-
-- name: Install CRI-O APT repos
-  become: yes
-  apt_repository:
-    repo: "{{ item.repo }}"
-    filename: "{{ item.filename }}"
-  loop:
-    - {
-        repo: deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_20.04/ /,
-        filename: devel:kubic:libcontainers:stable,
-      }
-    - {
-        repo: deb http://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/1.28/xUbuntu_20.04/ /,
-        filename: devel:kubic:libcontainers:stable:cri-o:1.28,
-      }
-
 - name: Install dependencies
   become: yes
   apt:
@@ -72,15 +48,11 @@
     name:
       - ca-certificates
       - curl
-      - cri-o
-      - cri-o-runc
-
-- name: Enable crio service now
-  become: yes
-  systemd:
-    name: crio
-    enabled: yes
-    state: started
+      - software-properties-common
+      - jq
+      - curl
+      - wget
+      - tmux
 
 # https://wiki.debian.org/DebianRepository/UseThirdParty
 - name: Create /etc/apt/keyrings
@@ -95,15 +67,47 @@
 - name: Add Google Cloud signing key
   become: yes
   get_url:
-    url: https://pkgs.k8s.io/core:/stable:/v1.28/deb/Release.key
+    url: https://pkgs.k8s.io/core:/stable:/v1.30/deb/Release.key
     dest: /etc/apt/keyrings/kubernetes-apt-keyring.asc
 
 - name: Install K8s APT repo
   become: yes
   apt_repository:
-    repo: "deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.asc] https://pkgs.k8s.io/core:/stable:/v1.28/deb/ /"
+    repo: "deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.asc] https://pkgs.k8s.io/core:/stable:/v1.30/deb/ /"
     state: present
     filename: k8s
+
+- name: Add CRI-O signing key
+  become: yes
+  get_url:
+    url: https://pkgs.k8s.io/addons:/cri-o:/stable:/v1.30/deb/Release.key
+    dest: /etc/apt/keyrings/cri-o-apt-keyring.asc
+
+- name: Install CRI-O APT repo
+  become: yes
+  apt_repository:
+    repo: "deb [signed-by=/etc/apt/keyrings/cri-o-apt-keyring.asc] https://pkgs.k8s.io/addons:/cri-o:/stable:/v1.30/deb/ /"
+    state: present
+    filename: cri-o
+
+- name: Install CRIU APT repo
+  become: yes
+  apt_repository:
+    repo: 'ppa:criu/ppa'
+    state: present
+    filename: criu
+
+- name: Install runtime dependencies
+  become: yes
+  apt:
+    update_cache: yes
+    state: present
+    name:
+      - crun
+      - runc
+      - criu
+      - conmon
+      - containerd
 
 - name: Install kubeadm and friends
   become: yes
@@ -111,9 +115,17 @@
     update_cache: yes
     state: present
     name:
-      - kubelet=1.28.0-1.1
-      - kubectl=1.28.0-1.1
-      - kubeadm=1.28.0-1.1
+      # - cri-o=1.30.0-1.1
+      - kubelet=1.30.0-1.1
+      - kubectl=1.30.0-1.1
+      - kubeadm=1.30.0-1.1
+
+# - name: Enable crio service now
+#   become: yes
+#   systemd:
+#     name: crio
+#     enabled: yes
+#     state: started
 
 - name: Hold kubeadm and friends
   become: yes
@@ -135,4 +147,4 @@
 
 - name: Prime docker image cache
   become: yes
-  command: kubeadm config images pull --kubernetes-version 1.28.0
+  command: kubeadm config images pull --kubernetes-version 1.30.0
